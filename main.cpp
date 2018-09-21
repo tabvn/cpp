@@ -1,26 +1,92 @@
 #include <iostream>
 #include "uWS.h"
 
+using namespace std;
+
+
+uWS::WebSocket<uWS::CLIENT> *client;
+
+bool isConnected = false;
+
 
 int main(){
 
-
+    string url = "ws://127.0.0.1:3007/ws";
 
     uWS::Hub h;
-    std::string response = "Hello!";
 
-    h.onMessage([](uWS::WebSocket<uWS::SERVER> *ws, char *message, size_t length, uWS::OpCode opCode) {
-        ws->send(message, length, opCode);
+
+    std::vector<std::string> messages = {"hello", "world"};
+
+    std::vector<int> excludes;
+
+
+    h.onError([&](void *user) {
+
+        cout << "Error" << endl;
+
+        isConnected = false;
+        sleep(1);
+
+        if(!isConnected){
+            h.connect(url, (void *) 10, {}, 60000);
+        }
+
+
     });
 
-    h.onHttpRequest([&](uWS::HttpResponse *res, uWS::HttpRequest req, char *data, size_t length,
-                        size_t remainingBytes) {
-        res->end(response.data(), response.length());
+
+    h.onConnection([&messages, &excludes](uWS::WebSocket<uWS::CLIENT> *ws, uWS::HttpRequest req) {
+
+
+        isConnected = true;
+        client = ws;
+
+        std::cout << "Connected" << endl;
+
+        const char *msg = "How are you Server";
+
+
+
+        client->send(msg);
+
     });
 
-    if (h.listen(3000)) {
-        h.run();
-    }
+    h.onDisconnection([&](uWS::WebSocket<uWS::CLIENT> *ws, int code, char *message, size_t length) {
+
+        isConnected = false;
+
+        std::cout << "closed" << endl;
+
+        sleep(1);
+
+        if(!isConnected){
+            h.connect(url, (void *) 10, {}, 60000);
+        }
+
+
+
+    });
+
+    int receivedMessages = 0;
+
+
+
+    h.onMessage([&receivedMessages, &h](uWS::WebSocket<uWS::CLIENT> *ws, char *message, size_t length, uWS::OpCode opCode) {
+
+        std::cout << "Server Message: " << std::string(message, length) << std::endl;
+
+
+
+    });
+
+
+    h.connect(url, (void *) 10, {}, 60000);
+
+
+
+    h.run();
+
 
 
     return 0;
