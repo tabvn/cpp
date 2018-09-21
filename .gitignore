@@ -1,0 +1,9 @@
+.idea
+.idea/*
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+cmake-build-debug
+cmake-build-debug/*
