@@ -39,7 +39,7 @@ void Service::post(char *url, char *data) {
 Response Service::get(const char *url) {
 
 
-    struct Response response;
+    struct Response response{};
 
     curl = curl_easy_init();
 
