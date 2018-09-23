@@ -37,7 +37,8 @@ int main() {
 
 
         const char *requestUrl = "https://reqres.in/api/users/1";
-        Response res = service.get(requestUrl);
+        char *d = "{\"test\": \"how are you\"}";
+        Response res = service.post(requestUrl, d);
         cout << "Response: " << res.code << ":" << res.error << res.data << endl;
 
     });

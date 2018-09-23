@@ -46,7 +46,7 @@ public:
 
     Service();
 
-    void post(char *url, char *data);
+    Response post(const char *url, char *data);
 
     void close();
 
@@ -54,9 +54,7 @@ public:
 
     static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp);
 
-    ~Service() {
-
-    }
+    ~Service();
 
 
 };
