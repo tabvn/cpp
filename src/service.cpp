@@ -12,27 +12,6 @@ Service::Service() {
 
 void Service::post(char *url, char *data) {
 
-
-    struct curl_slist *chunk = NULL;
-
-    // Custom header
-    chunk = curl_slist_append(chunk, "Content-Type: application/json");
-    res = curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
-
-
-    curl_easy_setopt(curl, CURLOPT_URL, url);
-    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
-
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, (long) strlen(data));
-
-    res = curl_easy_perform(curl);
-
-    if (res != CURLE_OK) {
-
-        fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
-    }
-
 }
 
 
@@ -43,7 +22,7 @@ Response Service::get(const char *url) {
 
     curl = curl_easy_init();
 
-    struct ResponseData m;
+    struct ResponseData m{};
 
     m.memory = (char *) malloc(1);  /* will be grown as needed by the realloc above */
     m.size = 0;
