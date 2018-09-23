@@ -6,13 +6,13 @@ using namespace std;
 
 uWS::WebSocket<uWS::CLIENT> *client;
 
-bool isConnected = false;
 
-Service service;
+bool isConnected = false;
 
 
 int main() {
 
+    Service service;
     string url = "ws://127.0.0.1:3007/ws";
 
     uWS::Hub h;
@@ -25,6 +25,7 @@ int main() {
 
     h.onError([&](void *user) {
 
+
         cout << "Error" << endl;
 
         isConnected = false;
@@ -35,11 +36,9 @@ int main() {
         }
 
 
-        const char *requestUrl = "https://reqres.in/api/users?page=2";
+        const char *requestUrl = "https://reqres.in/api/users/1";
         Response res = service.get(requestUrl);
-
         cout << "Response: " << res.code << ":" << res.error << res.data << endl;
-
 
     });
 

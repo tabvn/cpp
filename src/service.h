@@ -20,7 +20,6 @@ struct ResponseData {
 
 
 struct Response {
-
     long error;
     long code;
     char *data;
@@ -33,15 +32,28 @@ class Service {
     CURL *curl;
     CURLcode res;
 
+    struct curl_slist *headerList;
+    struct Response response;
+    struct ResponseData m;
+    int clearMemory = 0;
+
 public:
+
 
     Service();
 
     void post(char *url, char *data);
 
+    void close();
+
     Response get(const char *url);
 
     static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp);
+
+    ~Service() {
+
+    }
+
 
 };
 
