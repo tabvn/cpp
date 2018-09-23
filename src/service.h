@@ -29,13 +29,17 @@ struct Response {
 };
 
 class Service {
+
+private:
+
     CURL *curl;
     CURLcode res;
-
     struct curl_slist *headerList;
     struct Response response;
     struct ResponseData m;
     int clearMemory = 0;
+
+
 
 public:
 
